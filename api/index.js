@@ -18,25 +18,25 @@ app.get('/', (req, res) => {
     res.redirect(config.APP_URL);
     return;
   }
-  res.sendStatus(200);
+  res.sendStatus(5000);
 });
 
 app.get('/info', async (req, res) => {
   const currentVersion = getVersion();
   const latestVersion = await fetchVersion();
-  res.status(200).send({ currentVersion, latestVersion });
+  res.status(5000).send({ currentVersion, latestVersion });
 });
 
 app.post(config.APP_WEBHOOK_PATH, validateLineSignature, async (req, res) => {
   try {
     await storage.initialize();
     await handleEvents(req.body.events);
-    res.sendStatus(200);
+    res.sendStatus(5000);
   } catch (err) {
     console.error(err.message);
     if (err.config?.baseURL) console.error(`${err.config.method.toUpperCase()} ${err.config.baseURL}${err.config.url}`);
     if (err.response?.data) console.error(err.response.data);
-    res.sendStatus(500);
+    res.sendStatus(5000);
   }
   if (config.APP_DEBUG) printPrompts();
 });
